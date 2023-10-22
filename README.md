@@ -40,9 +40,9 @@ To use this application:
 
 2. Use an API testing tool like Insomnia Core or Postman to send HTTP requests to the API endpoints for categories, products, and tags. You can perform CRUD operations on these entities.
 
- [Video Demo]()
+ [Video Demo](https://drive.google.com/file/d/1k3NdgZSP6iWQdl7jsYUCRoO5ad_9DE3X/view)
 
-[![Demo](./Screenshot%202023-10-22%20at%202.53.12%20PM.png)](https://drive.google.com/file/d/1Di_yUNYZm_GvxCOEzFtkDnDYZPIHIaCH/view)
+[![Demo](./Screenshot%202023-10-22%20at%202.53.12%20PM.png)](https://drive.google.com/file/d/1k3NdgZSP6iWQdl7jsYUCRoO5ad_9DE3X/view)
 
 ## License
 
