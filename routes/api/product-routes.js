@@ -55,12 +55,15 @@ router.post('/', (req, res) => {
             tag_id,
           };
         });
-        return ProductTag.bulkCreate(productTagIdArr);
+        return ProductTag.bulkCreate(productTagIdArr).then(() => product);
       }
-      // if no product tags, just respond
-      res.status(200).json(product);
+      // if no product tags, just respond with the created product
+      return product;
     })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+    .then((createdProduct) => {
+      // Now, createdProduct has the 'id' property set
+      res.status(200).json(createdProduct);
+    })
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -116,21 +119,18 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
-
-    // Find the product by its ID to check if it exists
+ 
     const productData = await Product.findByPk(productId);
 
     if (!productData) {
       res.status(404).json({ message: 'Product not found' });
       return;
     }
-
-    // Remove associations with tags
+ 
     await ProductTag.destroy({
       where: { product_id: productId },
     });
-
-    // Delete the product itself
+ 
     await Product.destroy({
       where: { id: productId },
     });
