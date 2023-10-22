@@ -6,15 +6,11 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // get all products
 router.get('/', async (req, res) => {
   try {
-    // Find all products and include their associated Category and Tag data
     const productsData = await Product.findAll({
       include: [{ model: Category }, { model: Tag, through: ProductTag }],
     });
-
-    // Respond with the products data
     res.status(200).json(productsData);
   } catch (err) {
-    // Handle errors, e.g., database error
     console.error(err);
     res.status(500).json(err);
   }
@@ -22,9 +18,27 @@ router.get('/', async (req, res) => {
 
 
 // get one product
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+router.get('/:id', async (req, res) => {
+  try {
+    // Find a single product by its `id` and include its associated Category and Tag data
+    const productId = req.params.id;
+    const productData = await Product.findByPk(productId, {
+      include: [{ model: Category }, { model: Tag, through: ProductTag }],
+    });
+
+    if (!productData) {
+      // If product not found, respond with 404 status
+      res.status(404).json({ message: 'Product not found' });
+      return;
+    }
+
+    // Respond with the product data
+    res.status(200).json(productData);
+  } catch (err) {
+    // Handle errors, e.g., database error
+    console.error(err);
+    res.status(500).json(err);
+  }
 });
 
 // create new product
